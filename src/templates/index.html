@@ -137,11 +137,12 @@
                 networks = []
                 $.each(data, function (i, dt) {
                     e = window.mapping[dt.mac];
-                    networks.push(e.ne + ' ' + e.name + ' #' + e.mac)
                     if (e == void (0)) {
                         nf.push(dt.mac)
+                        networks.push(dt.ne + ' #' + dt.mac)
                         return;
                     }
+                    networks.push(dt.ne + ' ' + e.name + ' #' + e.mac)
                     e.el.setRadius(10 + Math.log2(dt.ne));
                     e.el.setStyle({ color: '#FF0000' })
                 })
