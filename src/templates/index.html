@@ -76,7 +76,7 @@
     <script>
 
         $(function () {
-            window.delta = 1
+            window.delta = 5
             window.scale = 60 / window.delta
             window.target = 'any'
             window.shwm_lat = '{{ lat }}'
@@ -166,7 +166,7 @@
                     })
                 }
                 output.innerHTML = h + ':' + m;
-                date = new Date(Date.parse($('#datepicker').val()+'T00:00:00.000000'))
+                date = new Date(Date.parse($('#datepicker').val() + 'T00:00:00.000000'))
                 date.setHours(h - 4, m, 0)
                 date_from = new Date(date)
                 var date_to = new Date();
