@@ -20,6 +20,11 @@ body {
     font-size: x-small;
 }
 
+.active-networks {
+    max-height: 50px;
+    overflow-y: auto;
+}
+
 .devices>div {
     max-height: 150px;
     overflow-y: scroll;
