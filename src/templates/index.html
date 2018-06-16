@@ -50,8 +50,8 @@
                             <input type="checkbox" id="live-mode" checked="checked">
                         </span>
                         <p>Date:
-                            <input type="text" id="datepicker" class="hasDatepicker">
-                            <span id="timer"></span>
+                            <input id="datepicker" type="date">
+                            <span id="timer">00:00</span>
                             <span>
                             </span>
                         </p>
@@ -81,6 +81,7 @@
             window.target = 'any'
             window.shwm_lat = '{{ lat }}'
             window.shwm_lon = '{{ lon }}'
+            $('#datepicker').val((new Date()).toISOString().substring(0,10))
 
             var container = $('#cblist');
 
@@ -123,7 +124,30 @@
                 else
                     clearInterval(window.timer);
             }
-
+            function draw_circles(data) {
+                $.each(window.nics, function (i, e) {
+                    e.el.setRadius((1 - ((e.ss - 29) / 70)) * 2);
+                    e.el.setStyle({ color: '#3388ff' })
+                });
+                data = JSON.parse(data)
+                if (data.length == 0) {
+                    return;
+                }
+                nf = []
+                networks = []
+                $.each(data, function (i, dt) {
+                    e = window.mapping[dt.mac];
+                    networks.push(e.ne + ' ' + e.name + ' #' + e.mac)
+                    if (e == void (0)) {
+                        nf.push(dt.mac)
+                        return;
+                    }
+                    e.el.setRadius(10 + Math.log2(dt.ne));
+                    e.el.setStyle({ color: '#FF0000' })
+                })
+                $('#not-found-apa').text(nf.join('\t'))
+                $('.networks').text(networks.join(' '))
+            }
             window.slider.oninput = function () {
                 window.liveMode.checked = false;
                 h = Math.trunc(this.value / window.scale)
@@ -138,7 +162,7 @@
                     })
                 }
                 output.innerHTML = h + ':' + m;
-                date = new Date(window.dateObject)
+                date = new Date($('#datepicker').val())
                 date.setHours(h - 4, m, 0)
                 date_from = new Date(date)
                 var date_to = new Date();
@@ -149,38 +173,10 @@
                 rangeUrl = '/range?from=' + date_from.toISOString() + '&to=' + date_to.toISOString() +
                     '&macs=' + macs.join(',')
                 $.get(rangeUrl, function (data) {
-                    $.each(window.nics, function (i, e) {
-                        e.el.setRadius((1 - ((e.ss - 29) / 70)) * 2);
-                        e.el.setStyle({ color: '#3388ff' })
-                    });
-                    data = JSON.parse(data)
-                    if (data.length == 0) {
-                        return;
-                    }
-                    nf = []
-                    networks = []
-                    $.each(data, function (i, dt) {
-                        e = window.mapping[dt.mac];
-                        networks.push(e.ne + ' ' + e.name + ' #' + e.mac)
-                        if (e == void (0)) {
-                            nf.push(dt.mac)
-                            return;
-                        }
-                        e.el.setRadius(10 + Math.log2(dt.ne));
-                        e.el.setStyle({ color: '#FF0000' })
-                    })
-                    $('#not-found-apa').text(nf.join('\t'))
-                    $('.networks').text(networks.join(' '))
+                    draw_circles(data)
                 });
             }
             window.slider.value = 150; // Display the default slider value
-
-            $("#datepicker").datepicker({
-                onSelect: function () {
-                    window.dateObject = $(this).datepicker('getDate');
-                    console.log(window.dateObject)
-                }
-            });
 
             var map = L.map('map').setView([window.shwm_lat, window.shwm_lon], 25);
 
@@ -198,25 +194,7 @@
             function runLive() {
                 window.timer = setInterval(function () {
                     $.get('/activity?mac=' + window.target + '&t=' + window.delta, function (data) {
-                        $.each(window.nics, function (i, e) {
-                            e.el.setRadius((1 - ((e.ss - 29) / 70)) * 2);
-                            e.el.setStyle({ color: '#3388ff' })
-                        });
-                        data = JSON.parse(data)
-                        if (data.length == 0) {
-                            return;
-                        }
-                        nf = []
-                        $.each(data, function (i, dt) {
-                            e = window.mapping[dt.mac];
-                            if (e == void (0)) {
-                                nf.push(dt.mac)
-                                return;
-                            }
-                            e.el.setRadius(15);
-                            e.el.setStyle({ color: '#FF0000' })
-                        })
-                        $('#not-found-apa').text(nf.join('\t'))
+                        draw_circles(data);
                     });
                 }, 1500)
             };
