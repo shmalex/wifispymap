@@ -3,14 +3,15 @@ import pandas as pd
 import numpy as np
 
 
-devices_df = pd.read_csv(os.path.join('..', 'data', 'devices.csv'))
+devices_df = pd.read_csv(os.path.join('..', 'data', 'devices.csv'), sep=';')
 manufacture_name_df = pd.read_pickle(os.path.join(
     '..', 'data', 'device_names.pickle'), compression='gzip')
 
 print(devices_df.head())
-manufacture_name_df.set_index('mac',inplace=True)
-#devices_df.set_index('mac')
+manufacture_name_df.set_index('mac', inplace=True)
+# devices_df.set_index('mac')
 print(manufacture_name_df.head())
+devices_df.set_index('mac', inplace=True)
 
 
 def device_name(mac):

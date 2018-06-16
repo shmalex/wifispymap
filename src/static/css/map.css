@@ -17,6 +17,7 @@ body {
     /* overflow-y: auto; */
     vertical-align: top;
     /* max-height: 100%; */
+    font-size: x-small;
 }
 
 .devices>div {
