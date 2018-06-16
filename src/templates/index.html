@@ -166,7 +166,7 @@
                     })
                 }
                 output.innerHTML = h + ':' + m;
-                date = new Date($('#datepicker').val())
+                date = new Date(Date.parse($('#datepicker').val()+'T00:00:00.000000'))
                 date.setHours(h - 4, m, 0)
                 date_from = new Date(date)
                 var date_to = new Date();
