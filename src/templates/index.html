@@ -38,10 +38,11 @@
                     </form>
                 </td>
                 <td class="main-map">
+                    <div>Networks
+                        <span class="networks"></span>
+                    </div>
                     <div style="    height: 80%;">
                         <div id='map'></div>
-
-
                     </div>
                     <div class="controls">
                         <span>
@@ -157,8 +158,10 @@
                         return;
                     }
                     nf = []
+                    networks = []
                     $.each(data, function (i, dt) {
                         e = window.mapping[dt.mac];
+                        networks.push(e.ne + ' ' + e.name + ' #' + e.mac)
                         if (e == void (0)) {
                             nf.push(dt.mac)
                             return;
@@ -167,6 +170,7 @@
                         e.el.setStyle({ color: '#FF0000' })
                     })
                     $('#not-found-apa').text(nf.join('\t'))
+                    $('.networks').text(networks.join(' '))
                 });
             }
             window.slider.value = 150; // Display the default slider value
