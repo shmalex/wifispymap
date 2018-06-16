@@ -81,7 +81,7 @@
             window.target = 'any'
             window.shwm_lat = '{{ lat }}'
             window.shwm_lon = '{{ lon }}'
-            $('#datepicker').val((new Date()).toISOString().substring(0,10))
+            $('#datepicker').val((new Date()).toISOString().substring(0, 10));
 
             var container = $('#cblist');
 
@@ -139,10 +139,10 @@
                     e = window.mapping[dt.mac];
                     if (e == void (0)) {
                         nf.push(dt.mac)
-                        networks.push(dt.ne + ' #' + dt.mac)
+                        networks.push('<b>' + dt.ne + '</b> <small>#' + dt.mac + '<small>')
                         return;
                     }
-                    networks.push(dt.ne + ' ' + e.name + ' #' + e.mac)
+                    networks.push('<b>' + dt.ne + '</b> <small>' + e.name + ' #' + dt.mac + '<small>')
                     e.el.setRadius(10 + Math.log2(dt.ne));
                     e.el.setStyle({ color: '#FF0000' })
                 })
