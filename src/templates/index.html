@@ -139,10 +139,10 @@
                     e = window.mapping[dt.mac];
                     if (e == void (0)) {
                         nf.push(dt.mac)
-                        networks.push('<b>' + dt.ne + '</b> <small>#' + dt.mac + '<small>')
+                        networks.push('<b>' + dt.ne + '</b> <small>#' + dt.mac + '</small>')
                         return;
                     }
-                    networks.push('<b>' + dt.ne + '</b> <small>' + e.name + ' #' + dt.mac + '<small>')
+                    networks.push('<b>' + dt.ne + '</b> <small>' + e.name + ' #' + dt.mac + '</small>')
                     e.el.setRadius(10 + Math.log2(dt.ne));
                     e.el.setStyle({ color: '#FF0000' })
                 })
