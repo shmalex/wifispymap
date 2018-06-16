@@ -147,7 +147,7 @@
                     e.el.setStyle({ color: '#FF0000' })
                 })
                 $('#not-found-apa').text(nf.join('\t'))
-                $('.networks').text(networks.join(' '))
+                $('.networks').html(networks.join(' '))
             }
             window.slider.oninput = function () {
                 window.liveMode.checked = false;
