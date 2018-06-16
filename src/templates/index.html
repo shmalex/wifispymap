@@ -99,7 +99,7 @@
                     s = $('<div />')
                     s.appendTo(container)
                     $('<input />', { type: 'radio', name: 'macdevices', id: 'cb' + id, value: dt.mac }).appendTo(s);
-                    $('<label />', { 'for': 'cb' + id, text: dt.ne + ' ' + dt.mac }).appendTo(s);
+                    $('<label />', { 'for': 'cb' + id, text: dt.name + ' ' + dt.ne }).appendTo(s);
                 });
 
                 $('#myDevices input').on('change', function () {

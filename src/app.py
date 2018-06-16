@@ -7,6 +7,7 @@ import queue as q
 import string
 import time
 import zlib
+import sys
 from multiprocessing import Array, Manager, Process
 
 import pandas as pd
@@ -14,6 +15,7 @@ from flask import Flask, render_template, request
 
 import dal
 from dal import DAL
+import devices_names as devs
 from repo import ModelRepository
 
 conf_mac = os.environ['SHWM_DEFAULT_MAC']
@@ -21,6 +23,7 @@ conf_lat = os.environ['SHWM_LAT']
 conf_lon = os.environ['SHWM_LON']
 
 print(os.environ['SHWM_DB_PATH'])
+
 
 #conf_mac = os.environ['DEFAULT_MAX']
 
@@ -80,7 +83,7 @@ def devices():
         pas = repository.get_devices_from_range(dt_from, dt_to)
         print('returned', len(pas))
         return json.dumps(
-            [{'ne': o.ne, 'mac': o.mac}for o in pas])
+            [{'ne': o.ne, 'mac': o.mac, 'name': devs.device_name(o.mac)}for o in pas])
     except KeyboardInterrupt:
         return'[]'
     except Exception as ex:
