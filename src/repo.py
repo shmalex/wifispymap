@@ -16,7 +16,7 @@ class ModelRepository(object):
         self.__get_last_activitiy = ''' select timestamp dt, source_address src, destination_address dst, access_point_address apa, access_point_name apn 
         from packets 
         where timestamp > ? and 
-        (source_address = ? or destination_address = ?)'''
+        ((source_address = ? or destination_address = ?) or (?='any') '''
         self.__get_power_activitiy_any = '''
             select count(*) ne, access_point_address apa
             from packets 
@@ -37,7 +37,7 @@ class ModelRepository(object):
 
         self.__get_range_by_mac = ''' select count(*) ne, access_point_address apa
             from packets where (timestamp >= ? and timestamp <= ?) and 
-            (source_address = ? or destination_address = ?)
+            ((source_address = ? or destination_address = ?) or (? = 'any'))
             and not (source_address == access_point_address and destination_address == 'ff:ff:ff:ff:ff:ff')
             group by access_point_address'''
         self.__get_devices_date = ''' select  en, mac from devices_date where en > 100'''  # where (dt >= ? and dt <= ?)  '''
@@ -119,7 +119,7 @@ class ModelRepository(object):
 
     def get_from_range_by_mac(self, mac, dtfrom, dtto):
         rows = self._execute_rows(
-            self.__get_range_by_mac, (dtfrom, dtto, mac, mac))
+            self.__get_range_by_mac, (dtfrom, dtto, mac, mac, mac))
 
         if rows is None:
             return None
@@ -138,7 +138,7 @@ class ModelRepository(object):
         ts = dt.datetime.isoformat(
             dt.datetime.now() - dt.timedelta(minutes=last_min))
 
-        rows = self._execute_rows(self.__get_last_activitiy, (ts, mac, mac))
+        rows = self._execute_rows(self.__get_last_activitiy, (ts, mac, mac, mac))
 
         if rows is None:
             return None
