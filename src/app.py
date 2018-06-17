@@ -81,7 +81,7 @@ def devices():
         dt_from = date+'T00:00:00.867282'
         dt_to = date + 'T23:59:59.999999'
         pas = repository.get_devices_from_range(dt_from, dt_to)
-        print('returned', len(pas))
+        print('returned', len(pas), dt_from, dt_to)
         return json.dumps(
             [{'ne': o.ne, 'mac': o.mac, 'name': devs.device_name(o.mac)}for o in pas])
     except KeyboardInterrupt:
