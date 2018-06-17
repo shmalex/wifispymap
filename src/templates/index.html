@@ -157,6 +157,12 @@
                 h = Math.trunc(this.value / window.scale)
                 m = (this.value - (h * window.scale)) * window.delta
                 output.innerHTML = h + ':' + m;
+            }
+            window.slider.onchange = function () {
+                window.liveMode.checked = false;
+                h = Math.trunc(this.value / window.scale)
+                m = (this.value - (h * window.scale)) * window.delta
+                output.innerHTML = h + ':' + m;
                 clearInterval(window.timer);
                 t = $("#cblist input:checked")
                 macs = []
