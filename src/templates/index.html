@@ -88,7 +88,7 @@
             $('#myForm input').on('change', function () {
                 window.delta = Number($('input[name=scale]:checked', '#myForm').val())
                 window.scale = 60 / window.delta;
-                window.slider.max = (60 * 24) / window.delta
+                //window.slider.max = (60 * 24) / window.delta
             });
             $.get('/devices', function (data) {
                 data = JSON.parse(data)
@@ -113,7 +113,7 @@
             });
             // Update the current slider value (each time you drag the slider handle)
             window.slider = document.getElementById("myRange");
-            window.slider.max = (60 * 24) / window.delta
+            //window.slider.max = (60 * 24) / window.delta
             var output = document.getElementById("timer");
             window.liveMode = document.getElementById("live-mode");
             window.liveMode.onchange = function () {
@@ -153,15 +153,14 @@
                 $('.networks').html(networks.join(' '))
             }
             window.slider.oninput = function () {
-                window.liveMode.checked = false;
-                h = Math.trunc(this.value / window.scale)
-                m = (this.value - (h * window.scale)) * window.delta
+                h = Math.trunc(this.value / 60)
+                m = (this.value - (h * 60)) * 1
                 output.innerHTML = h + ':' + m;
             }
             window.slider.onchange = function () {
                 window.liveMode.checked = false;
-                h = Math.trunc(this.value / window.scale)
-                m = (this.value - (h * window.scale)) * window.delta
+                h = Math.trunc(this.value / 60)
+                m = (this.value - (h * 60)) * 1
                 output.innerHTML = h + ':' + m;
                 clearInterval(window.timer);
                 t = $("#cblist input:checked")
